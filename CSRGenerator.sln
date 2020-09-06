@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30406.217
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSRGenerator", "CSRGenerator\CSRGenerator.csproj", "{0023B12C-2D38-4512-93C7-502E443BD2A0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0023B12C-2D38-4512-93C7-502E443BD2A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0023B12C-2D38-4512-93C7-502E443BD2A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0023B12C-2D38-4512-93C7-502E443BD2A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0023B12C-2D38-4512-93C7-502E443BD2A0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EBDD2D37-3F19-4331-A585-87531E77DE39}
+	EndGlobalSection
+EndGlobal

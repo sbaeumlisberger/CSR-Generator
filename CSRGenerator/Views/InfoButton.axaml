@@ -1,0 +1,26 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="CSRGenerator.Views.InfoButton"
+             Cursor="Help"             
+             Background="Transparent"
+             BorderThickness="1"
+             BorderBrush="Gray"          
+             Width="16"
+             Height="16"
+             Margin="4,0,0,0"
+             ToolTip.ShowDelay="0">
+  <ToolTip.Tip>
+    <TextBlock
+      MaxWidth="300"
+      TextWrapping="Wrap"
+      Text="{Binding Info}"/>
+  </ToolTip.Tip>
+  <ContentControl    
+    VerticalAlignment="Center"    
+    Padding="5,-1,0,0"
+    Content="?">
+  </ContentControl>
+</UserControl>

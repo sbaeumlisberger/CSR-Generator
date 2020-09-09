@@ -25,9 +25,9 @@ namespace CSRGenerator.ViewModels
 
         public KeyUsageSectionModel()
         {
-            PropertyChanged += (sender, e) => 
-            { 
-                if (e.PropertyName == nameof(KeyAgreement) && !KeyAgreement) 
+            PropertyChanged += (sender, e) =>
+            {
+                if (e.PropertyName == nameof(KeyAgreement) && !KeyAgreement)
                 {
                     EncipherOnly = false;
                     DecipherOnly = false;
@@ -35,11 +35,12 @@ namespace CSRGenerator.ViewModels
             };
         }
 
-        public KeyUsage ToKeyUsage() 
+        public KeyUsage GetKeyUsage()
         {
             int keyUsage = 0;
+
             if (DigitalSignature) keyUsage |= KeyUsage.DigitalSignature;
-            if (NonRepudiation)  keyUsage |= KeyUsage.NonRepudiation;
+            if (NonRepudiation) keyUsage |= KeyUsage.NonRepudiation;
             if (KeyEncipherment) keyUsage |= KeyUsage.KeyEncipherment;
             if (DataEncipherment) keyUsage |= KeyUsage.DataEncipherment;
             if (KeyAgreement) keyUsage |= KeyUsage.KeyAgreement;
@@ -47,7 +48,8 @@ namespace CSRGenerator.ViewModels
             if (DecipherOnly) keyUsage |= KeyUsage.DecipherOnly;
             if (CertificateSigning) keyUsage |= KeyUsage.KeyCertSign;
             if (CRLSigning) keyUsage |= KeyUsage.CrlSign;
-            return new KeyUsage(keyUsage);
+
+            return keyUsage != 0 ? new KeyUsage(keyUsage) : null;
         }
     }
 }

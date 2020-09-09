@@ -51,12 +51,14 @@ namespace CSRGenerator.ViewModels
             SubjectAlternativeNames.Remove(subjectAlternativeName);
         }
 
-        public GeneralName[] ToGeneralNames()
+        public GeneralNames GetGeneralNames()
         {
-            return SubjectAlternativeNames
+            var generalNames = SubjectAlternativeNames
                 .Where(san => san.Type != null)
                 .Select(san => new GeneralName(san.Type.Tag, san.Value))
-                .ToArray();
+                .ToArray();  
+
+            return generalNames.Any() ? new GeneralNames(generalNames) : null;
         }
     }
 }

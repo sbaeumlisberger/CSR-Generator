@@ -15,11 +15,19 @@
   </Design.DataContext>
 
   <Window.Styles>
+    <Style Selector="TextBlock.sectionTitle">
+      <Setter Property="FontWeight" Value="Bold"/>
+    </Style>    
     <Style Selector=".fieldSet > TextBlock">
       <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
     <Style Selector=".fieldSet > TextBox">
       <Setter Property="Margin" Value="4,2,0,2"/>
+    </Style>
+    <Style Selector=".fieldSet > NumericUpDown">
+      <Setter Property="Margin" Value="4,2,0,2"/>
+      <Setter Property="Padding" Value="0"/>
+      <Setter Property="ShowButtonSpinner" Value="False"/>
     </Style>
     <Style Selector=".fieldSet > ComboBox">
       <Setter Property="Margin" Value="4,2,0,2"/>
@@ -32,15 +40,15 @@
 
       <StackPanel IsVisible="{Binding !IsCSRGenerated}">
         
-        <TextBlock Text="Key" FontWeight="Bold"/>
+        <TextBlock Text="Key" Classes="sectionTitle"/>
         <Grid Classes="fieldSet" Margin="0,4,0,0" DataContext="{Binding KeySectionModel}" ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto">
           <TextBlock Grid.Row="0" Grid.Column="0" Text="Algorithm"/>
           <ComboBox Grid.Row="0" Grid.Column="1" Items="{Binding AvailableKeyAlgorithms}" SelectedItem="{Binding SelectedKeyAlgorithm}"/>
           <TextBlock Grid.Row="1" Grid.Column="0" Text="Length"/>
-          <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding KeyLength}"/>
+          <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding KeyLength}" Minimum="0"/>
         </Grid>
 
-        <TextBlock Margin="0,16,0,0" Text="Subject" FontWeight="Bold"/>
+        <TextBlock Margin="0,16,0,0" Text="Subject" Classes="sectionTitle"/>
         <StackPanel DataContext="{Binding SubjectSectionModel}">
           <Grid Classes="fieldSet" Margin="0,4,0,0" ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Common Name (CN)"/>
@@ -75,7 +83,7 @@
           <Button Margin="0,4,0,0" HorizontalAlignment="Left" Content="Show more/less" Command="{Binding ToggleShowAll}"/>
         </StackPanel>
 
-        <TextBlock Margin="0,16,0,0" Text="Subject Alternative Names" FontWeight="Bold"/>
+        <TextBlock Margin="0,16,0,0" Text="Subject Alternative Names" Classes="sectionTitle"/>
         <StackPanel Margin="0,4,0,0" DataContext="{Binding SANSectionModel}">
           <ItemsControl Items="{Binding SubjectAlternativeNames}">
             <ItemsControl.ItemTemplate>
@@ -93,7 +101,7 @@
 
         <Grid ColumnDefinitions="*,*">
           <StackPanel Grid.Column="0">
-            <TextBlock Margin="0,16,0,0" Text="Key Usage" FontWeight="Bold"/>
+            <TextBlock Margin="0,16,0,0" Text="Key Usage" Classes="sectionTitle"/>
             <StackPanel Margin="0,4,0,0" Spacing="2" DataContext="{Binding KeyUsageSectionModel}">
               <CheckBox Content="Digital signature" IsChecked="{Binding DigitalSignature}" ToolTip.Tip="Use when the public key is used with a digital signature mechanism to support security services other than non-repudiation, certificate signing, or CRL signing. A digital signature is often used for entity authentication and data origin authentication with integrity."/>
               <CheckBox Content="Non-repudiation" IsChecked="{Binding NonRepudiation}" ToolTip.Tip="Use when the public key is used to verify digital signatures used to provide a non-repudiation service. Non-repudiation protects against the signing entity falsely denying some action (excluding certificate or CRL signing)."/>
@@ -108,7 +116,7 @@
           </StackPanel>
 
           <StackPanel Grid.Column="1">
-            <TextBlock Margin="0,16,0,0" Text="Extended Key Usage" FontWeight="Bold"/>
+            <TextBlock Margin="0,16,0,0" Text="Extended Key Usage" Classes="sectionTitle"/>
             <StackPanel Margin="0,4,0,0" Spacing="2" DataContext="{Binding ExtendedKeyUsageSectionModel}">
               <CheckBox Content="Server authentication" IsChecked="{Binding ServerAuth}"/>
               <CheckBox Content="Client authentication" IsChecked="{Binding ClientAuth}"/>
@@ -120,9 +128,12 @@
             </StackPanel>
           </StackPanel>
         </Grid>
-
-        <TextBlock Margin="0,16,0,0" Text="Signature" FontWeight="Bold"/>
-        <Grid Classes="fieldSet" Margin="0,4,0,0" ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto">
+        
+        <TextBlock Margin="0,16,0,0" Text="Basic Constraints" Classes="sectionTitle"/>
+        <CheckBox Margin="0,4,0,0" Content="CA certificate" IsChecked="{Binding BasicConstraintsSectionModel.IsCA}"/>
+        
+        <TextBlock Margin="0,16,0,0" Text="Signature" Classes="sectionTitle"/>
+        <Grid Classes="fieldSet" Margin="0,4,0,0" DataContext="{Binding SignatureAlgorithmSectionModel}" ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto">
           <TextBlock Grid.Row="0" Grid.Column="0" Text="Algorithm"/>
           <ComboBox Grid.Row="0" Grid.Column="1" Items="{Binding AvailableSignatureAlgorithm}" SelectedItem="{Binding SelectedSignatureAlgorithm}"/>
         </Grid>
@@ -131,17 +142,7 @@
 
       </StackPanel>
       
-      <StackPanel IsVisible="{Binding IsCSRGenerated}">
-
-        <Button HorizontalAlignment="Left" Content="← Back" Command="{Binding Back}"/>
-        
-        <TextBox Margin="0,16,0,0" MinHeight="60" AcceptsReturn="True" Text="{Binding GeneratedCSR}"/>
-        <Button Margin="0,4,0,0" HorizontalAlignment="Left" Content="Save CSR" Command="{Binding SaveCSR}"/>
-
-        <TextBox Margin="0,16,0,0" MinHeight="60" AcceptsReturn="True" Text="{Binding PrivateKey}"/>
-        <Button Margin="0,4,0,0" HorizontalAlignment="Left" Content="Save Private Key" Command="{Binding SavePrivateKey}"/>
-
-      </StackPanel>
+      <views:ResultView IsVisible="{Binding IsCSRGenerated}"/>
 
     </StackPanel>
 

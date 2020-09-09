@@ -3,6 +3,7 @@ using Org.BouncyCastle.Asn1.X509;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace CSRGenerator.ViewModels
@@ -17,9 +18,10 @@ namespace CSRGenerator.ViewModels
         public bool SmartCardLogon { get; set; }
         public bool Timestamping { get; set; }
 
-        public ExtendedKeyUsage ToExtendedKeyUsage() 
+        public ExtendedKeyUsage GetExtendedKeyUsage()
         {
             List<KeyPurposeID> extendedKeyUsages = new List<KeyPurposeID>();
+
             if (ServerAuth) extendedKeyUsages.Add(KeyPurposeID.IdKPServerAuth);
             if (ClientAuth) extendedKeyUsages.Add(KeyPurposeID.IdKPClientAuth);
             if (CodeSigning) extendedKeyUsages.Add(KeyPurposeID.IdKPCodeSigning);
@@ -27,7 +29,12 @@ namespace CSRGenerator.ViewModels
             if (OcspSigning) extendedKeyUsages.Add(KeyPurposeID.IdKPOcspSigning);
             if (SmartCardLogon) extendedKeyUsages.Add(KeyPurposeID.IdKPSmartCardLogon);
             if (Timestamping) extendedKeyUsages.Add(KeyPurposeID.IdKPTimeStamping);
-            return new ExtendedKeyUsage(extendedKeyUsages);
+
+            if (extendedKeyUsages.Any())
+            {
+                return new ExtendedKeyUsage(extendedKeyUsages);
+            }
+            return null;
         }
     }
 }

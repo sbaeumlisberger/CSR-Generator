@@ -12,11 +12,13 @@ namespace CSRGenerator.Models
 
         public X509Name Subject { get; set; }
 
-        public GeneralName[] SubjectAlternativeNames { get; set; }
+        public GeneralNames SubjectAlternativeNames { get; set; }
 
         public KeyUsage KeyUsage { get; set; }
 
         public ExtendedKeyUsage ExtendedKeyUsage { get; set; }
+
+        public BasicConstraints BasicConstraints { get; set; }
 
         public SignatureAlgorithm SignatureAlgorithm { get; set; }
     }

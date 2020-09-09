@@ -33,7 +33,7 @@ namespace CSRGenerator.ViewModels
             ShowAll = !ShowAll;
         }
 
-        public X509Name ToX509Name()
+        public X509Name GetX509Name()
         {
             Hashtable subject = new Hashtable();
             if (CommonName != null) subject.Add(X509Name.CN, CommonName);

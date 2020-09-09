@@ -28,11 +28,9 @@ namespace CSRGenerator.ViewModels
 
         public ExtendedKeyUsageSectionModel ExtendedKeyUsageSectionModel { get; } = new ExtendedKeyUsageSectionModel();
 
-        public IReadOnlyList<SignatureAlgorithm> AvailableSignatureAlgorithm { get; } = typeof(SignatureAlgorithm)
-            .GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
-            .Select(field => (SignatureAlgorithm)field.GetValue(null)).ToArray();
+        public BasicConstraintsSectionModel BasicConstraintsSectionModel { get; } = new BasicConstraintsSectionModel();
 
-        public SignatureAlgorithm SelectedSignatureAlgorithm { get; set; } = SignatureAlgorithm.SHA256withRSA;
+        public SignatureAlgorithmSectionModel SignatureAlgorithmSectionModel { get; } = new SignatureAlgorithmSectionModel();
 
         public bool IsCSRGenerated { get => isCSRGenerated; set => this.RaiseAndSetIfChanged(ref isCSRGenerated, value); }
 
@@ -61,11 +59,12 @@ namespace CSRGenerator.ViewModels
                 var csrData = new CSRData
                 {
                     KeyPair = keyPair,
-                    Subject = SubjectSectionModel.ToX509Name(),
-                    SubjectAlternativeNames = SANSectionModel.ToGeneralNames(),
-                    KeyUsage = KeyUsageSectionModel.ToKeyUsage(),
-                    ExtendedKeyUsage = ExtendedKeyUsageSectionModel.ToExtendedKeyUsage(),
-                    SignatureAlgorithm = SelectedSignatureAlgorithm
+                    Subject = SubjectSectionModel.GetX509Name(),
+                    SubjectAlternativeNames = SANSectionModel.GetGeneralNames(),
+                    KeyUsage = KeyUsageSectionModel.GetKeyUsage(),
+                    ExtendedKeyUsage = ExtendedKeyUsageSectionModel.GetExtendedKeyUsage(),
+                    BasicConstraints = BasicConstraintsSectionModel.GetBasicConstraints(),
+                    SignatureAlgorithm = SignatureAlgorithmSectionModel.SelectedSignatureAlgorithm
                 };
 
                 var pkcs10CSR = csrGenerator.GenerateCSR(csrData);

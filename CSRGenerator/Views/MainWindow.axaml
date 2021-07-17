@@ -44,8 +44,8 @@
         <Grid Classes="fieldSet" Margin="0,4,0,0" DataContext="{Binding KeySectionModel}" ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto">
           <TextBlock Grid.Row="0" Grid.Column="0" Text="Algorithm"/>
           <ComboBox Grid.Row="0" Grid.Column="1" Items="{Binding AvailableKeyAlgorithms}" SelectedItem="{Binding SelectedKeyAlgorithm}"/>
-          <TextBlock Grid.Row="1" Grid.Column="0" Text="Length"/>
-          <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding KeyLength}" Minimum="0"/>
+          <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding KeyParametersLabel}"/>
+          <ComboBox Grid.Row="1" Grid.Column="1" Items="{Binding AvailableKeyParameters}" SelectedItem="{Binding SelectedKeyParameters}"/>
         </Grid>
 
         <TextBlock Margin="0,16,0,0" Text="Subject" Classes="sectionTitle"/>

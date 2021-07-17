@@ -1,4 +1,5 @@
 ﻿using CSRGenerator.Models;
+using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +8,18 @@ using System.Text;
 
 namespace CSRGenerator.ViewModels
 {
-    public class SignatureAlgorithmSectionModel
+    public class SignatureAlgorithmSectionModel : ViewModelBase
     {
-        public IReadOnlyList<SignatureAlgorithm> AvailableSignatureAlgorithm { get; } = typeof(SignatureAlgorithm)
-            .GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
-            .Select(field => (SignatureAlgorithm)field.GetValue(null)).ToArray();
+        [Reactive]
+        public IReadOnlyList<SignatureAlgorithm> AvailableSignatureAlgorithm { get; set; } = SignatureAlgorithm.Values;
 
+        [Reactive]
         public SignatureAlgorithm SelectedSignatureAlgorithm { get; set; } = SignatureAlgorithm.SHA256withRSA;
+
+        public void FilterBy(KeyAlgorithm keyAlgorithm)
+        {
+            AvailableSignatureAlgorithm = SignatureAlgorithm.Values.Where(sa => sa.KeyAlgorithm == keyAlgorithm).ToList();
+            SelectedSignatureAlgorithm = AvailableSignatureAlgorithm.SkipWhile(sa => sa.Identifier.StartsWith("SHA1")).First();
+        }
     }
 }

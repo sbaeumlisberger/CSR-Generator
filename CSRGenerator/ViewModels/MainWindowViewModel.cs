@@ -4,6 +4,7 @@ using ReactiveUI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -48,11 +49,25 @@ namespace CSRGenerator.ViewModels
         private string generatedCSR = string.Empty;
         private string privateKey = string.Empty;
 
+        public MainWindowViewModel()
+        {
+            KeySectionModel.PropertyChanged += KeySectionModel_PropertyChanged;
+            SignatureAlgorithmSectionModel.FilterBy(KeySectionModel.SelectedKeyAlgorithm);
+        }
+
+        private void KeySectionModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(KeySectionModel.SelectedKeyAlgorithm))
+            {
+                SignatureAlgorithmSectionModel.FilterBy(KeySectionModel.SelectedKeyAlgorithm);
+            }
+        }
+
         public void GenerateCSR()
         {
             try
             {
-                var keyPair = keyGenerator.GenerateKeyPair(KeySectionModel.SelectedKeyAlgorithm, KeySectionModel.KeyLength);
+                var keyPair = keyGenerator.GenerateKeyPair(KeySectionModel.SelectedKeyAlgorithm, KeySectionModel.SelectedKeyParameters);
 
                 PrivateKey = encodingService.ToPEM(keyPair.Private);
 

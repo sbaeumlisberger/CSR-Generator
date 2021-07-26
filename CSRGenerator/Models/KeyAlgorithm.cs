@@ -8,7 +8,6 @@ namespace CSRGenerator.Models
     {
         RSA,
         DSA,
-        //DH,
         ECC
     }
 }

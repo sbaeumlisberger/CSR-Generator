@@ -9,7 +9,7 @@ namespace CSRGenerator.ViewModels
     {
         public bool IsCA { get; set; }
 
-        public BasicConstraints GetBasicConstraints()
+        public BasicConstraints? GetBasicConstraints()
         {
             return IsCA ? new BasicConstraints(IsCA) : null;
         }

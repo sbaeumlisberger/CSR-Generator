@@ -18,8 +18,13 @@ namespace CSRGenerator.Models
 {
     public class CSRGeneratorService
     {
-        public Pkcs10CertificationRequest GenerateCSR(CSRData csrData)
+        public Pkcs10CertificationRequest GenerateCSR(CSRData csrData, AsymmetricKeyParameter privateKey)
         {
+            if (csrData.PublicKey is null || csrData.SignatureAlgorithm is null)
+            {
+                throw new ArgumentException("Invalid CSR data", nameof(csrData));
+            }
+
             X509ExtensionsGenerator extensions = new X509ExtensionsGenerator();
 
             if (csrData.KeyUsage != null)
@@ -39,11 +44,11 @@ namespace CSRGenerator.Models
                 extensions.AddExtension(X509Extensions.BasicConstraints, true, csrData.BasicConstraints);
             }
 
-            AttributeX509 extensionAttribute = new AttributeX509(PkcsObjectIdentifiers.Pkcs9AtExtensionRequest, new DerSet(extensions.Generate()));
+            AttributeX509 extensionsAttribute = new AttributeX509(PkcsObjectIdentifiers.Pkcs9AtExtensionRequest, new DerSet(extensions.Generate()));
 
-            DerSet attributes = new DerSet(extensionAttribute);
+            DerSet attributes = new DerSet(extensionsAttribute);
 
-            return new Pkcs10CertificationRequest(csrData.SignatureAlgorithm.Identifier, csrData.Subject, csrData.KeyPair.Public, attributes, csrData.KeyPair.Private);
+            return new Pkcs10CertificationRequest(csrData.SignatureAlgorithm.Identifier, csrData.Subject, csrData.PublicKey, attributes, privateKey);
         }
 
     }

@@ -29,7 +29,7 @@ namespace CSRGenerator.ViewModels
             PropertyChanged += KeySectionModel_PropertyChanged;
         }
 
-        private void KeySectionModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void KeySectionModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(SelectedKeyAlgorithm))
             {

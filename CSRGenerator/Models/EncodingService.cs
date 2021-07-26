@@ -19,5 +19,10 @@ namespace CSRGenerator.Models
             stringWriter.Flush();
             return stringBuilder.ToString();
         }
+
+        public object ParsePEM(string pem)
+        {
+            return new PemReader(new StringReader(pem)).ReadObject();
+        }
     }
 }

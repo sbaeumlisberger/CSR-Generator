@@ -1,0 +1,48 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="CSRGenerator.Views.CertificateSignerView">
+
+  <ScrollViewer>
+
+    <Grid>
+
+      <StackPanel Margin="16" IsVisible="{Binding !IsCertificateSigned}">
+
+        <TextBlock Text="CSR" Classes="sectionTitle"/>
+        <TextBox Margin="0,4,0,0" MinHeight="60" MaxHeight="180" AcceptsReturn="True" Watermark="Paste your CSR here" Text="{Binding CSR}"/>
+        <Button Margin="0,4,0,0" HorizontalAlignment="Left" Content="Durchsuchen" Command="{Binding OpenCSR}"/>
+
+        <TextBlock Margin="0,16,0,0" Text="Validity" Classes="sectionTitle"/>
+        <!--TODO-->
+        
+        <TextBlock Margin="0,16,0,0" Text="Issuer" Classes="sectionTitle"/>
+        <!--TODO-->
+        
+        <TextBlock Margin="0,16,0,0" Text="Signature Algorithm" Classes="sectionTitle"/>
+        <ComboBox Margin="0,4,0,0" Items="{Binding AvailableSignatureAlgorithms}" SelectedItem="{Binding SelectedSignatureAlgorithm}"/>
+
+        <TextBlock Margin="0,16,0,0" Text="Signature Key" Classes="sectionTitle"/>
+        <CheckBox Margin="0,4,0,0" Content="Generate Key" IsChecked="{Binding GenerateSignatureKey}"/>
+        <TextBox Margin="0,4,0,0" MinHeight="60" MaxHeight="180" AcceptsReturn="True" Text="{Binding SignatureKey}" Watermark="Paste your Signature Key here" IsEnabled="{Binding !GenerateSignatureKey}"/>
+        <Button Margin="0,4,0,0" HorizontalAlignment="Left" Content="Durchsuchen" Command="{Binding OpenSignatureKey}" IsEnabled="{Binding !GenerateSignatureKey}"/>
+
+        <Button Margin="0,16,0,0" Padding="8" FontSize="14" Content="Sign" FontWeight="Bold" Command="{Binding SignCertificate}" IsEnabled="{Binding CanSign}"/>
+
+      </StackPanel>
+
+      <StackPanel Margin="16" IsVisible="{Binding IsCertificateSigned}">
+
+        <Button HorizontalAlignment="Left" Content="← Back" Command="{Binding Back}"/>
+
+        <TextBox Margin="0,16,0,0" MinHeight="60" MaxHeight="240" AcceptsReturn="True" Text="{Binding SignedCertificate}"/>
+        <Button Margin="0,4,0,0" HorizontalAlignment="Left" Content="Save Certificate" Command="{Binding SaveCertificate}"/>
+      </StackPanel>
+
+    </Grid>
+
+  </ScrollViewer>
+
+</UserControl>

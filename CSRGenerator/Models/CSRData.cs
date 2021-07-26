@@ -8,18 +8,18 @@ namespace CSRGenerator.Models
 {
     public class CSRData
     {
-        public AsymmetricCipherKeyPair KeyPair { get; set; }
+        public AsymmetricKeyParameter? PublicKey { get; set; }
 
-        public X509Name Subject { get; set; }
+        public X509Name? Subject { get; set; }
 
-        public GeneralNames SubjectAlternativeNames { get; set; }
+        public GeneralNames? SubjectAlternativeNames { get; set; }
 
-        public KeyUsage KeyUsage { get; set; }
+        public KeyUsage? KeyUsage { get; set; }
 
-        public ExtendedKeyUsage ExtendedKeyUsage { get; set; }
+        public ExtendedKeyUsage? ExtendedKeyUsage { get; set; }
 
-        public BasicConstraints BasicConstraints { get; set; }
+        public BasicConstraints? BasicConstraints { get; set; }
 
-        public SignatureAlgorithm SignatureAlgorithm { get; set; }
+        public SignatureAlgorithm? SignatureAlgorithm { get; set; }
     }
 }

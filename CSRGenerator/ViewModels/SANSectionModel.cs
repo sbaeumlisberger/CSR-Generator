@@ -25,8 +25,8 @@ namespace CSRGenerator.ViewModels
 
     public class SubjectAlternativeName
     {
-        public SANType Type { get; set; }
-        public string Value { get; set; }
+        public SANType? Type { get; set; }
+        public string? Value { get; set; }
     }
 
     public class SANSectionModel
@@ -51,11 +51,11 @@ namespace CSRGenerator.ViewModels
             SubjectAlternativeNames.Remove(subjectAlternativeName);
         }
 
-        public GeneralNames GetGeneralNames()
+        public GeneralNames? GetGeneralNames()
         {
             var generalNames = SubjectAlternativeNames
-                .Where(san => san.Type != null)
-                .Select(san => new GeneralName(san.Type.Tag, san.Value))
+                .Where(san => san.Type != null && san.Value != null)
+                .Select(san => new GeneralName(san.Type!.Tag, san.Value))
                 .ToArray();  
 
             return generalNames.Any() ? new GeneralNames(generalNames) : null;

@@ -18,7 +18,7 @@ namespace CSRGenerator.ViewModels
         public bool SmartCardLogon { get; set; }
         public bool Timestamping { get; set; }
 
-        public ExtendedKeyUsage GetExtendedKeyUsage()
+        public ExtendedKeyUsage? GetExtendedKeyUsage()
         {
             List<KeyPurposeID> extendedKeyUsages = new List<KeyPurposeID>();
 

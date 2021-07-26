@@ -35,7 +35,7 @@ namespace CSRGenerator.ViewModels
             };
         }
 
-        public KeyUsage GetKeyUsage()
+        public KeyUsage? GetKeyUsage()
         {
             int keyUsage = 0;
 

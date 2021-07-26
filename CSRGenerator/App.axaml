@@ -2,8 +2,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:CSRGenerator"
              x:Class="CSRGenerator.App">
-    <Application.Styles>
-        <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
-        <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml"/>
-    </Application.Styles>
+  <Application.Styles>
+    <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
+    <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml"/>
+
+    <Style Selector="TextBlock.sectionTitle">
+      <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+    <Style Selector=".fieldSet > TextBlock">
+      <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    <Style Selector=".fieldSet > TextBox">
+      <Setter Property="Margin" Value="4,2,0,2"/>
+    </Style>
+    <Style Selector=".fieldSet > NumericUpDown">
+      <Setter Property="Margin" Value="4,2,0,2"/>
+      <Setter Property="Padding" Value="0"/>
+      <Setter Property="ShowButtonSpinner" Value="False"/>
+    </Style>
+    <Style Selector=".fieldSet > ComboBox">
+      <Setter Property="Margin" Value="4,2,0,2"/>
+    </Style>
+  </Application.Styles>
 </Application>

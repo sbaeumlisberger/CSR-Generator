@@ -9,10 +9,10 @@
 
     <Button HorizontalAlignment="Left" Content="← Back" Command="{Binding Back}"/>
 
-    <TextBox Margin="0,16,0,0" MinHeight="60" AcceptsReturn="True" Text="{Binding GeneratedCSR}"/>
+    <TextBox Margin="0,16,0,0" MinHeight="60" MaxHeight="180" AcceptsReturn="True" Text="{Binding GeneratedCSR}"/>
     <Button Margin="0,4,0,0" HorizontalAlignment="Left" Content="Save CSR" Command="{Binding SaveCSR}"/>
 
-    <TextBox Margin="0,16,0,0" MinHeight="60" AcceptsReturn="True" Text="{Binding PrivateKey}"/>
+    <TextBox Margin="0,16,0,0" MinHeight="60" MaxHeight="180" AcceptsReturn="True" Text="{Binding PrivateKey}"/>
     <Button Margin="0,4,0,0" HorizontalAlignment="Left" Content="Save Private Key" Command="{Binding SavePrivateKey}"/>
 
   </StackPanel>

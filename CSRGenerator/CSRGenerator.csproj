@@ -2,18 +2,27 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.9.11" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.9.11" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.11" />
+    <PackageReference Include="Avalonia" Version="0.10.6" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.6" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.6" />
     <PackageReference Include="BouncyCastle" Version="1.8.9" />
     <PackageReference Include="ReactiveUI.Fody" Version="14.1.1" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\CertificateSignerView.axaml.cs">
+      <DependentUpon>CertificateSignerView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\CSRGeneratorView.axaml.cs">
+      <DependentUpon>CSRGeneratorView.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

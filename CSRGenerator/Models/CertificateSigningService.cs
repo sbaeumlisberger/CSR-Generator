@@ -17,30 +17,32 @@ namespace CSRGenerator.Models
 {
     public class CertificateSigningService
     {
-        public X509Certificate SignCertificate(Pkcs10CertificationRequest pkcs10CertificationRequest, AsymmetricKeyParameter signatureKey, SignatureAlgorithm signatureAlgorithm)
+        public X509Certificate SignCertificate(Pkcs10CertificationRequest pkcs10CertificationRequest, AsymmetricKeyParameter signatureKey, SignatureAlgorithm signatureAlgorithm, X509Name? issuer = null, DateTime? notBefore = null, DateTime? notAfter = null)
         {
             var requestInfo = pkcs10CertificationRequest.GetCertificationRequestInfo();
 
             var certGenerator = new X509V3CertificateGenerator();
 
+            var now = DateTime.Now;
+
             certGenerator.SetSubjectDN(requestInfo.Subject);
             certGenerator.SetPublicKey(pkcs10CertificationRequest.GetPublicKey());
-            certGenerator.SetIssuerDN(requestInfo.Subject); // TODO
-            certGenerator.SetNotBefore(DateTime.Now); // TODO
-            certGenerator.SetNotAfter(DateTime.Now.AddYears(1)); // TODO
+            certGenerator.SetIssuerDN(issuer ?? requestInfo.Subject);
+            certGenerator.SetNotBefore(notBefore ?? now);
+            certGenerator.SetNotAfter(notAfter ?? now.AddYears(1));
             certGenerator.SetSerialNumber(BigInteger.Arbitrary(32));
 
             foreach (var attribute in requestInfo.Attributes.ToArray())
             {
-                if(attribute is Asn1Sequence attributeSequence 
-                    && attributeSequence[0] is DerObjectIdentifier identifier 
+                if (attribute is Asn1Sequence attributeSequence
+                    && attributeSequence[0] is DerObjectIdentifier identifier
                     && identifier.Id == PkcsObjectIdentifiers.Pkcs9AtExtensionRequest.Id
-                    && attributeSequence[1] is Asn1Set extensionsSet) 
+                    && attributeSequence[1] is Asn1Set extensionsSet)
                 {
                     var x509Extensions = X509Extensions.GetInstance(extensionsSet[0]);
-                    foreach (DerObjectIdentifier oid in x509Extensions.GetExtensionOids()) 
+                    foreach (DerObjectIdentifier oid in x509Extensions.GetExtensionOids())
                     {
-                        X509Extension x509Extension = x509Extensions.GetExtension(oid);                        
+                        X509Extension x509Extension = x509Extensions.GetExtension(oid);
                         certGenerator.AddExtension(oid, x509Extension.IsCritical, x509Extension.GetParsedValue());
                     }
                     break;

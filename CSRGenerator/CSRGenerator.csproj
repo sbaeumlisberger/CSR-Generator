@@ -18,6 +18,9 @@
     <Folder Include="Assets\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Views\DistinguishedNameView.axaml.cs">
+      <DependentUpon>DistinguishedNameView.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\CertificateSignerView.axaml.cs">
       <DependentUpon>CertificateSignerView.axaml</DependentUpon>
     </Compile>

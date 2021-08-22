@@ -21,7 +21,7 @@ namespace CSRGenerator.ViewModels
 
         public KeySectionModel KeySectionModel { get; } = new KeySectionModel();
 
-        public SubjectSectionModel SubjectSectionModel { get; } = new SubjectSectionModel();
+        public DistinguishedNameViewModel SubjectSectionModel { get; } = new DistinguishedNameViewModel();
 
         public SANSectionModel SANSectionModel { get; } = new SANSectionModel();
 

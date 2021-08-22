@@ -7,7 +7,7 @@ using System.Text;
 
 namespace CSRGenerator.ViewModels
 {
-    public class SubjectSectionModel : ViewModelBase
+    public class DistinguishedNameViewModel : ViewModelBase
     {
         public string CommonName { get; set; } = "";
         public string Organization { get; set; } = "";

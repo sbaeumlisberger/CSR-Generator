@@ -21,6 +21,14 @@ namespace CSRGenerator.ViewModels
 
         [Reactive] public string CSR { get; set; } = "";
 
+        public DateTime NotBefore { get; set; }
+
+        public DateTime NotAfter { get; set; }
+
+        [Reactive] public bool UseSubjectAsIssuer { get; set; } = false;
+
+        public DistinguishedNameViewModel IssuerViewModel { get; } = new DistinguishedNameViewModel();
+
         public IReadOnlyList<SignatureAlgorithm> AvailableSignatureAlgorithms { get; } = SignatureAlgorithm.Values;
 
         [Reactive] public SignatureAlgorithm SelectedSignatureAlgorithm { get; set; } = SignatureAlgorithm.SHA256withRSA;
@@ -43,6 +51,9 @@ namespace CSRGenerator.ViewModels
 
         public CertificateSignerViewModel()
         {
+            NotBefore = DateTime.Now;
+            NotAfter = NotBefore.AddYears(1);
+
             this.WhenAnyValue(x => x.CSR, x => x.GenerateSignatureKey, x => x.SignatureKey)
                 .Subscribe(x => CanSign = CSR != "" && (GenerateSignatureKey || SignatureKey != ""));
 
@@ -109,7 +120,9 @@ namespace CSRGenerator.ViewModels
                     signatureKey = parsedKeyPair.Private;
                 }
 
-                var certificate = certificateSigningService.SignCertificate(pkcs10CertificationRequest, signatureKey, SelectedSignatureAlgorithm);
+                var issuer = UseSubjectAsIssuer ? pkcs10CertificationRequest.GetCertificationRequestInfo().Subject : IssuerViewModel.GetX509Name();
+
+                var certificate = certificateSigningService.SignCertificate(pkcs10CertificationRequest, signatureKey, SelectedSignatureAlgorithm, issuer, NotBefore, NotAfter);
 
                 SignedCertificate = encodingService.ToPEM(certificate);
             }

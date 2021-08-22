@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:views="clr-namespace:CSRGenerator.Views;assembly=CSRGenerator"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="CSRGenerator.Views.CertificateSignerView">
 
@@ -13,21 +14,31 @@
 
         <TextBlock Text="CSR" Classes="sectionTitle"/>
         <TextBox Margin="0,4,0,0" MinHeight="60" MaxHeight="180" AcceptsReturn="True" Watermark="Paste your CSR here" Text="{Binding CSR}"/>
-        <Button Margin="0,4,0,0" HorizontalAlignment="Left" Content="Durchsuchen" Command="{Binding OpenCSR}"/>
+        <Button Margin="0,4,0,0" HorizontalAlignment="Left" Content="Browse" Command="{Binding OpenCSR}"/>
 
         <TextBlock Margin="0,16,0,0" Text="Validity" Classes="sectionTitle"/>
-        <!--TODO-->
-        
+        <Grid ColumnDefinitions="Auto,Auto,Auto" RowDefinitions="Auto,Auto">
+          <TextBlock Text="From " VerticalAlignment="Center"/>
+          <DatePicker Grid.Column="1" Name="notBeforeDatePicker" SelectedDateChanged="NotBeforeDatePicker_SelectedDateChanged"/>
+          <TimePicker Grid.Column="2" Name="notBeforeTimePicker" ClockIdentifier="24HourClock" SelectedTimeChanged="NotBeforeTimePicker_SelectedTimeChanged"/>
+          <TextBlock Grid.Row="1" Text="To " VerticalAlignment="Center"/>
+          <DatePicker Grid.Row="1" Grid.Column="1" Name="notAfterDatePicker" SelectedDateChanged="NotAfterDatePicker_SelectedDateChanged"/>
+          <TimePicker Grid.Row="1" Grid.Column="2" Name="notAfterTimePicker" ClockIdentifier="24HourClock" SelectedTimeChanged="NotAfterTimePicker_SelectedTimeChanged"/>
+        </Grid>
+
         <TextBlock Margin="0,16,0,0" Text="Issuer" Classes="sectionTitle"/>
-        <!--TODO-->
-        
+        <CheckBox Margin="0,4,0,0" Content="Use subject from CSR" IsChecked="{Binding UseSubjectAsIssuer}"/>
+        <Grid Margin="0,4,0,0" IsVisible="{Binding !UseSubjectAsIssuer}">
+          <views:DistinguishedNameView DataContext="{Binding IssuerViewModel}"/>
+        </Grid>
+
         <TextBlock Margin="0,16,0,0" Text="Signature Algorithm" Classes="sectionTitle"/>
         <ComboBox Margin="0,4,0,0" Items="{Binding AvailableSignatureAlgorithms}" SelectedItem="{Binding SelectedSignatureAlgorithm}"/>
 
         <TextBlock Margin="0,16,0,0" Text="Signature Key" Classes="sectionTitle"/>
-        <CheckBox Margin="0,4,0,0" Content="Generate Key" IsChecked="{Binding GenerateSignatureKey}"/>
-        <TextBox Margin="0,4,0,0" MinHeight="60" MaxHeight="180" AcceptsReturn="True" Text="{Binding SignatureKey}" Watermark="Paste your Signature Key here" IsEnabled="{Binding !GenerateSignatureKey}"/>
-        <Button Margin="0,4,0,0" HorizontalAlignment="Left" Content="Durchsuchen" Command="{Binding OpenSignatureKey}" IsEnabled="{Binding !GenerateSignatureKey}"/>
+        <CheckBox Margin="0,4,0,0" Content="Generate one-time key" IsChecked="{Binding GenerateSignatureKey}"/>
+        <TextBox Margin="0,4,0,0" MinHeight="60" MaxHeight="180" AcceptsReturn="True" Text="{Binding SignatureKey}" Watermark="Paste your signature key here" IsEnabled="{Binding !GenerateSignatureKey}"/>
+        <Button Margin="0,4,0,0" HorizontalAlignment="Left" Content="Browse" Command="{Binding OpenSignatureKey}" IsEnabled="{Binding !GenerateSignatureKey}"/>
 
         <Button Margin="0,16,0,0" Padding="8" FontSize="14" Content="Sign" FontWeight="Bold" Command="{Binding SignCertificate}" IsEnabled="{Binding CanSign}"/>
 

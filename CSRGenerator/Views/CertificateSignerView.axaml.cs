@@ -12,6 +12,7 @@ namespace CSRGenerator.Views
 {
     public class CertificateSignerView : UserControl
     {
+
         public CertificateSignerView()
         {
             AvaloniaXamlLoader.Load(this);
@@ -24,6 +25,11 @@ namespace CSRGenerator.Views
             {
                 viewModel.SaveCertificateRequested += ViewModel_SaveCertificateRequested;
                 viewModel.OpenDialogRequested += ViewModel_OpenDialogRequested;
+
+                this.FindControl<DatePicker>("notBeforeDatePicker").SelectedDate = new DateTimeOffset(viewModel.NotBefore);
+                this.FindControl<TimePicker>("notBeforeTimePicker").SelectedTime = viewModel.NotBefore.TimeOfDay;
+                this.FindControl<DatePicker>("notAfterDatePicker").SelectedDate = new DateTimeOffset(viewModel.NotAfter);
+                this.FindControl<TimePicker>("notAfterTimePicker").SelectedTime = viewModel.NotAfter.TimeOfDay;
             }
         }
 
@@ -50,6 +56,30 @@ namespace CSRGenerator.Views
             {
                 e.SelectedFile = filePaths[0];
             }
+        }
+
+        private void NotBeforeDatePicker_SelectedDateChanged(object sender, DatePickerSelectedValueChangedEventArgs args)
+        {
+            var viewModel = ((CertificateSignerViewModel)DataContext!);
+            viewModel.NotBefore = args.NewDate!.Value.Date + viewModel.NotBefore.TimeOfDay;
+        }
+
+        private void NotBeforeTimePicker_SelectedTimeChanged(object sender, TimePickerSelectedValueChangedEventArgs args)
+        {
+            var viewModel = ((CertificateSignerViewModel)DataContext!);
+            viewModel.NotBefore = viewModel.NotBefore.Date + args.NewTime!.Value;
+        }
+
+        private void NotAfterDatePicker_SelectedDateChanged(object sender, DatePickerSelectedValueChangedEventArgs args)
+        {
+            var viewModel = ((CertificateSignerViewModel)DataContext!);
+            viewModel.NotAfter = args.NewDate!.Value.DateTime + viewModel.NotAfter.TimeOfDay;
+        }
+
+        private void NotAfterTimePicker_SelectedTimeChanged(object sender, TimePickerSelectedValueChangedEventArgs args)
+        {
+            var viewModel = ((CertificateSignerViewModel)DataContext!);
+            viewModel.NotAfter = viewModel.NotAfter.Date + args.NewTime!.Value;
         }
     }
 }

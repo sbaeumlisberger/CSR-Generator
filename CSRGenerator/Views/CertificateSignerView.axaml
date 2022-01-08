@@ -18,11 +18,11 @@
 
         <TextBlock Margin="0,16,0,0" Text="Validity" Classes="sectionTitle"/>
         <Grid ColumnDefinitions="Auto,Auto,Auto" RowDefinitions="Auto,Auto">
-          <TextBlock Text="From " VerticalAlignment="Center"/>
-          <DatePicker Grid.Column="1" Name="notBeforeDatePicker" SelectedDateChanged="NotBeforeDatePicker_SelectedDateChanged"/>
+          <TextBlock Text="Not Before " VerticalAlignment="Center"/>
+          <CalendarDatePicker Grid.Column="1" Name="notBeforeDatePicker" Height="28" Margin="0,2,0,0" MinWidth="100" SelectedDateChanged="NotBeforeDatePicker_SelectedDateChanged"/>
           <TimePicker Grid.Column="2" Name="notBeforeTimePicker" ClockIdentifier="24HourClock" SelectedTimeChanged="NotBeforeTimePicker_SelectedTimeChanged"/>
-          <TextBlock Grid.Row="1" Text="To " VerticalAlignment="Center"/>
-          <DatePicker Grid.Row="1" Grid.Column="1" Name="notAfterDatePicker" SelectedDateChanged="NotAfterDatePicker_SelectedDateChanged"/>
+          <TextBlock Grid.Row="1" Text="Not After " VerticalAlignment="Center"/>
+          <CalendarDatePicker Grid.Row="1" Grid.Column="1" Name="notAfterDatePicker" Height="28" Margin="0,2,0,0" MinWidth="100" SelectedDateChanged="NotAfterDatePicker_SelectedDateChanged"/>
           <TimePicker Grid.Row="1" Grid.Column="2" Name="notAfterTimePicker" ClockIdentifier="24HourClock" SelectedTimeChanged="NotAfterTimePicker_SelectedTimeChanged"/>
         </Grid>
 

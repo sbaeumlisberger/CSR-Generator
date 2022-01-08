@@ -24,6 +24,10 @@
       <views:CertificateSignerView DataContext="{Binding CertificateSignerViewModel}"/>
     </TabItem>
 
+    <TabItem Header="CSR Analyzer">
+      <views:CSRAnalyzerView DataContext="{Binding CSRAnalyzerViewModel}"/>
+    </TabItem>
+
     <!-- TODO CSR and Certificate Parser -->
 
   </TabControl>

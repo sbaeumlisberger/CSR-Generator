@@ -1,6 +1,7 @@
 ﻿using DynamicData.Binding;
 using Org.BouncyCastle.Asn1.X509;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,19 +10,15 @@ namespace CSRGenerator.ViewModels
 {
     public class KeyUsageSectionModel : ViewModelBase
     {
-        public bool DigitalSignature { get; set; }
-        public bool NonRepudiation { get; set; }
-        public bool KeyEncipherment { get; set; }
-        public bool DataEncipherment { get; set; }
-        public bool KeyAgreement { get => keyAgreement; set => this.RaiseAndSetIfChanged(ref keyAgreement, value); }
-        public bool EncipherOnly { get => encipherOnly; set => this.RaiseAndSetIfChanged(ref encipherOnly, value); }
-        public bool DecipherOnly { get => decipherOnly; set => this.RaiseAndSetIfChanged(ref decipherOnly, value); }
-        public bool CertificateSigning { get; set; }
-        public bool CRLSigning { get; set; }
-
-        private bool keyAgreement;
-        private bool encipherOnly;
-        private bool decipherOnly;
+        [Reactive] public bool DigitalSignature { get; set; }
+        [Reactive] public bool NonRepudiation { get; set; }
+        [Reactive] public bool KeyEncipherment { get; set; }
+        [Reactive] public bool DataEncipherment { get; set; }
+        [Reactive] public bool KeyAgreement { get; set; }
+        [Reactive] public bool EncipherOnly { get; set; }
+        [Reactive] public bool DecipherOnly { get; set; }
+        [Reactive] public bool CertificateSigning { get; set; }
+        [Reactive] public bool CRLSigning { get; set; }
 
         public KeyUsageSectionModel()
         {
@@ -50,6 +47,20 @@ namespace CSRGenerator.ViewModels
             if (CRLSigning) keyUsage |= KeyUsage.CrlSign;
 
             return keyUsage != 0 ? new KeyUsage(keyUsage) : null;
+        }
+
+        public void Load(KeyUsage? keyUsage)
+        {
+            int keyUsageValue = keyUsage?.IntValue ?? 0;
+            DigitalSignature = (keyUsageValue & KeyUsage.DigitalSignature) > 0;
+            NonRepudiation = (keyUsageValue & KeyUsage.NonRepudiation) > 0;
+            KeyEncipherment = (keyUsageValue & KeyUsage.KeyEncipherment) > 0;
+            DataEncipherment = (keyUsageValue & KeyUsage.DataEncipherment) > 0;
+            KeyAgreement = (keyUsageValue & KeyUsage.KeyAgreement) > 0;
+            EncipherOnly = (keyUsageValue & KeyUsage.EncipherOnly) > 0;
+            DecipherOnly = (keyUsageValue & KeyUsage.DecipherOnly) > 0;
+            CertificateSigning = (keyUsageValue & KeyUsage.KeyCertSign) > 0;
+            CRLSigning = (keyUsageValue & KeyUsage.CrlSign) > 0;
         }
     }
 }

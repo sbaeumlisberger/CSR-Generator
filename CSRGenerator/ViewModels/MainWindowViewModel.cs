@@ -19,5 +19,6 @@ namespace CSRGenerator.ViewModels
 
         public CertificateSignerViewModel CertificateSignerViewModel { get; } = new CertificateSignerViewModel();
 
+        public CSRAnalyzerViewModel CSRAnalyzerViewModel { get; } = new CSRAnalyzerViewModel();
     }
 }

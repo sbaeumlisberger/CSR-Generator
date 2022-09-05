@@ -4,8 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:CSRGenerator.ViewModels;assembly=CSRGenerator"
              xmlns:views="clr-namespace:CSRGenerator.Views;assembly=CSRGenerator"
+             xmlns:converters="clr-namespace:CSRGenerator.Converters;assembly=CSRGenerator"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="CSRGenerator.Views.CSRAnalyzerView">
+
+  <UserControl.Resources>
+    <converters:SubjectNameIdentifierToDisplayNameConverter x:Key="SubjectNameIdentifierToDisplayNameConverter"/>
+  </UserControl.Resources>
 
   <ScrollViewer>
 
@@ -35,36 +40,17 @@
 
         <TextBlock Margin="0,16,0,0" Text="Subject" Classes="sectionTitle"/>
         <StackPanel DataContext="{Binding SubjectSectionModel}">
-          <Grid Classes="fieldSet" Margin="0,4,0,0" ColumnDefinitions="Auto,8,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Common Name (CN)"/>
-            <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding CommonName}"/>
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="Organization (O)"/>
-            <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Organization}"/>
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="Organization Unit (OU)"/>
-            <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding OrganizationUnit}"/>
-            <TextBlock Grid.Row="3" Grid.Column="0" Text="Country (C)"/>
-            <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding Country}"/>
-            <TextBlock Grid.Row="4" Grid.Column="0" Text="State (ST)"/>
-            <TextBlock Grid.Row="4" Grid.Column="2" Text="{Binding State}"/>
-            <TextBlock Grid.Row="5" Grid.Column="0" Text="Locality (L)"/>
-            <TextBlock Grid.Row="5" Grid.Column="2" Text="{Binding Locality}"/>
-            <TextBlock Grid.Row="6" Grid.Column="0" Text="E-Mail (E)"/>
-            <TextBlock Grid.Row="6" Grid.Column="2" Text="{Binding EMail}"/>
-            <TextBlock Grid.Row="7" Grid.Column="0" Text="Title (T)"/>
-            <TextBlock Grid.Row="7" Grid.Column="2" Text="{Binding Title}"/>
-            <TextBlock Grid.Row="8" Grid.Column="0" Text="Surname (SN)"/>
-            <TextBlock Grid.Row="8" Grid.Column="2" Text="{Binding Surname}"/>
-            <TextBlock Grid.Row="9" Grid.Column="0" Text="Given Name (GN)"/>
-            <TextBlock Grid.Row="9" Grid.Column="2" Text="{Binding GivenName}"/>
-            <TextBlock Grid.Row="10" Grid.Column="0" Text="Initials"/>
-            <TextBlock Grid.Row="10" Grid.Column="2" Text="{Binding Initials}"/>
-            <TextBlock Grid.Row="11" Grid.Column="0" Text="Pseudonym"/>
-            <TextBlock Grid.Row="11" Grid.Column="2" Text="{Binding Pseudonym}"/>
-            <TextBlock Grid.Row="12" Grid.Column="0" Text="Generation"/>
-            <TextBlock Grid.Row="12" Grid.Column="2" Text="{Binding GenerationQualifier}"/>
-            <TextBlock Grid.Row="13" Grid.Column="0" Text="DN Qualifier"/>
-            <TextBlock Grid.Row="13" Grid.Column="2" Text="{Binding DistinguishedNameQualifier}"/>
-          </Grid>
+          <ItemsControl Items="{Binding SubjectNames}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock Text="{Binding Identifier, Converter={StaticResource SubjectNameIdentifierToDisplayNameConverter}}"/>
+                  <TextBlock Text=":"/>
+                  <TextBlock Margin="4,0,0,0" Text="{Binding Value}"/>
+                </StackPanel>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
         </StackPanel>
 
         <TextBlock Margin="0,16,0,0" Text="Subject Alternative Names" Classes="sectionTitle"/>

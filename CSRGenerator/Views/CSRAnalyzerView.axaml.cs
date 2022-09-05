@@ -12,7 +12,7 @@ namespace CSRGenerator.Views
 {
     public class CSRAnalyzerView : UserControl
     {
-        private CSRAnalyzerViewModel viewModel;
+        private CSRAnalyzerViewModel? viewModel;
 
         public CSRAnalyzerView()
         {
@@ -32,7 +32,7 @@ namespace CSRGenerator.Views
         private async Task ViewModel_OpenDialogRequested(object sender, FileOpenDialogModel e)
         {
             var openFileDialog = new OpenFileDialog();
-            openFileDialog.Filters.Add(new FileDialogFilter() { Name = e.FilterLabel, Extensions = e.FileExtensionsFilter });
+            openFileDialog!.Filters.Add(new FileDialogFilter() { Name = e.FilterLabel, Extensions = e.FileExtensionsFilter });
             openFileDialog.Filters.Add(new FileDialogFilter() { Name = "All files", Extensions = new List<string>() { "*" } });
 
             if (await openFileDialog.ShowAsync(App.Current.MainWindow) is string[] filePaths && filePaths.Any())

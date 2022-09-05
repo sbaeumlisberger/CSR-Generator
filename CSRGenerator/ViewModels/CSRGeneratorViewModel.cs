@@ -1,4 +1,5 @@
 ﻿using CSRGenerator.Models;
+using Org.BouncyCastle.Asn1.X509;
 using Org.BouncyCastle.Pkcs;
 using ReactiveUI;
 using System;
@@ -8,6 +9,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reactive.Subjects;
 using System.Reflection;
 using System.Text;
 
@@ -53,6 +55,8 @@ namespace CSRGenerator.ViewModels
         {
             KeySectionModel.PropertyChanged += KeySectionModel_PropertyChanged;
             SignatureAlgorithmSectionModel.FilterBy(KeySectionModel.SelectedKeyAlgorithm);
+
+            SubjectSectionModel.SubjectNames.Add(new SubjectName() { Identifier = X509Name.CN });
         }
 
         private void KeySectionModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -101,16 +105,24 @@ namespace CSRGenerator.ViewModels
 
         public void SaveCSR()
         {
-            string cn = SubjectSectionModel.CommonName;
+            string? cn = GetCN();
             string name = string.IsNullOrWhiteSpace(cn) ? "csr" : cn;
             SaveCSRRequested?.Invoke(this, (name, GeneratedCSR));
         }
 
         public void SavePrivateKey()
         {
-            string cn = SubjectSectionModel.CommonName;
+            string? cn = GetCN();
             string name = string.IsNullOrWhiteSpace(cn) ? "key" : cn + "-key";
             SavePrivateKeyRequested?.Invoke(this, (name, PrivateKey));
+        }
+
+        private string? GetCN()
+        {
+            return SubjectSectionModel.SubjectNames
+                .Where(subjectName => subjectName.Identifier == X509Name.CN)
+                .Select(subjectName => subjectName.Value)
+                .FirstOrDefault();
         }
     }
 }

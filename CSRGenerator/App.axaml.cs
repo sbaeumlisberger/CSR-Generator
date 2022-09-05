@@ -8,9 +8,9 @@ namespace CSRGenerator
 {
     public class App : Application
     {
-        public static new App Current => (App)Application.Current;
+        public static new App Current => (App)Application.Current!;
 
-        public MainWindow MainWindow => (MainWindow)((IClassicDesktopStyleApplicationLifetime)ApplicationLifetime).MainWindow;
+        public MainWindow MainWindow => (MainWindow)((IClassicDesktopStyleApplicationLifetime)ApplicationLifetime!).MainWindow;
 
         public override void Initialize()
         {

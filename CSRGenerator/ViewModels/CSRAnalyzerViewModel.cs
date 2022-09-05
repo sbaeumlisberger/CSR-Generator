@@ -40,7 +40,7 @@ namespace CSRGenerator.ViewModels
 
         public BasicConstraintsSectionModel BasicConstraintsSectionModel { get; } = new BasicConstraintsSectionModel();
 
-        [Reactive] public SignatureAlgorithm SignatureAlgorithm { get; private set; } = default;
+        [Reactive] public SignatureAlgorithm SignatureAlgorithm { get; private set; } = SignatureAlgorithm.SHA256withRSA;
         [Reactive] public bool IsSignatureValid { get; private set; } = false;
 
         private static readonly IReadOnlyDictionary<ECCurve, string> ECCurveNames = ECNamedCurveTable.Names.Cast<string>().ToLookup(name => ECNamedCurveTable.GetByName(name).Curve, name => name).ToDictionary(entry => entry.Key, entry => entry.First());

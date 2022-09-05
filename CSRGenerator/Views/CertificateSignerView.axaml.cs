@@ -13,7 +13,7 @@ namespace CSRGenerator.Views
     public class CertificateSignerView : UserControl
     {
 
-        private CertificateSignerViewModel viewModel;
+        private CertificateSignerViewModel? viewModel;
 
         public CertificateSignerView()
         {
@@ -53,7 +53,7 @@ namespace CSRGenerator.Views
         private async Task ViewModel_OpenDialogRequested(object sender, FileOpenDialogModel e)
         {
             var openFileDialog = new OpenFileDialog();
-            openFileDialog.Filters.Add(new FileDialogFilter() { Name = e.FilterLabel, Extensions = e.FileExtensionsFilter });
+            openFileDialog!.Filters.Add(new FileDialogFilter() { Name = e.FilterLabel, Extensions = e.FileExtensionsFilter });
             openFileDialog.Filters.Add(new FileDialogFilter() { Name = "All files", Extensions = new List<string>() { "*" } });
 
             if (await openFileDialog.ShowAsync(App.Current.MainWindow) is string[] filePaths && filePaths.Any())
@@ -65,23 +65,23 @@ namespace CSRGenerator.Views
         private void NotBeforeDatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs args)
         {
             var selectedDate = this.FindControl<CalendarDatePicker>("notBeforeDatePicker").SelectedDate;
-            viewModel.NotBefore = selectedDate!.Value.Date + viewModel.NotBefore.TimeOfDay;
+            viewModel!.NotBefore = selectedDate!.Value.Date + viewModel.NotBefore.TimeOfDay;
         }
 
         private void NotBeforeTimePicker_SelectedTimeChanged(object sender, TimePickerSelectedValueChangedEventArgs args)
         {
-            viewModel.NotBefore = viewModel.NotBefore.Date + args.NewTime!.Value;
+            viewModel!.NotBefore = viewModel.NotBefore.Date + args.NewTime!.Value;
         }
 
         private void NotAfterDatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs args)
         {
             var selectedDate = this.FindControl<CalendarDatePicker>("notAfterDatePicker").SelectedDate;
-            viewModel.NotAfter = selectedDate!.Value.Date + viewModel.NotAfter.TimeOfDay;
+            viewModel!.NotAfter = selectedDate!.Value.Date + viewModel.NotAfter.TimeOfDay;
         }
 
         private void NotAfterTimePicker_SelectedTimeChanged(object sender, TimePickerSelectedValueChangedEventArgs args)
         {
-            viewModel.NotAfter = viewModel.NotAfter.Date + args.NewTime!.Value;
+            viewModel!.NotAfter = viewModel.NotAfter.Date + args.NewTime!.Value;
         }
     }
 }
